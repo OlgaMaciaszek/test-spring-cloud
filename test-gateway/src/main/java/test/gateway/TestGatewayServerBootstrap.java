@@ -31,12 +31,12 @@ public class TestGatewayServerBootstrap {
      * @param context
      * @return
      */
-//    @Bean
-//    public ServiceInstanceListSupplier discoveryClientServiceInstanceListSupplier(ConfigurableApplicationContext context) {
-//        return ServiceInstanceListSupplier.builder()
-//                .withDiscoveryClient()
-//                .withHints()
-//                .withCaching()
-//                .build(context);
-//    }
+    @Bean
+    public ServiceInstanceListSupplier discoveryClientServiceInstanceListSupplier(ConfigurableApplicationContext context) {
+        return ServiceInstanceListSupplier.builder()
+                .withDiscoveryClient()
+                .withHints()
+                .withCaching()
+                .build(context);
+    }
 }
