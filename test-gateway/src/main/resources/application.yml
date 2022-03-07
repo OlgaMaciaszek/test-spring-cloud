@@ -1,0 +1,64 @@
+server:
+  port: 8766
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+spring:
+  application:
+    name: bussiness-gateway-test
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+        - id: consumer
+          uri: lb://test-consumer
+          order: 8000
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username: nacos
+        password: nacos
+    sentinel:
+      transport:
+        dashboard: 192.168.50.80:8887
+        port: 9939
+      eager: true
+      filter:
+        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  security:
+    enabled: false
+
+logging:
+  file:
+    name: log/${spring.application.name}.log
+  pattern:
+    file: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx'
+  level:
+    org.springframework: info
